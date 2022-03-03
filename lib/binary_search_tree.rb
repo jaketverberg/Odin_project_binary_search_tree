@@ -12,7 +12,7 @@ class Tree
 attr_accessor: :root, :data
 
 def initialize(array)
-  @data = array.sort.untiq
+  @data = array.sort.uniq
   @root = build_tree(data)
 end
 
@@ -27,8 +27,12 @@ def build_tree(arr)
   node
 end
 
-def insert
+def insert(value, root=@root)
+  return Node.new(value) if root.nill?
+  return root if root.data == value
 
+  if root.data < value then root.right = insert(value, root.right) end
+  if root.data > value then root.left = insert(value, root.left) end
 end
 
 def delete
