@@ -2,24 +2,29 @@ class Node
   attr_accessor: :data, :left, :right
 
   def initialize(data)
-    self.data = data
-    self.left = null
-    self.right = null
+    @data = data
+    @left = null
+    @right = null
 end
 
 
 class Tree
 attr_accessor: :root
 
-def build_tree(arr)
-  arr.sort
-  return null if arr.size == 1
+def initialize(array)
+  @data = array.sort
+  @root = build_tree(data)
+end
 
-  mid = arr.size / 2
-  node = Node(arr[mid])
-  node.left = build_tree(arr[0]..arr[mid-1])
-  node.right = build_tree(arr[mid+1]..arr[-1])
-  return node
+def build_tree(arr)
+  return nil if arr.empty?
+
+  mid = (arr.size - 1) / 2
+  node = Node.new(arr[mid])
+  node.left = build_tree(arr[0...mid])
+  node.right = build_tree(arr[(mid+1)..-1])
+
+  node
 end
 
 def insert
