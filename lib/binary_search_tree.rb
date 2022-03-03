@@ -1,7 +1,8 @@
 class Node
+  attr_accessor: :data, :left, :right
 
-  def initialize(self, d)
-    self.data = d
+  def initialize(data)
+    self.data = data
     self.left = none
     self.right = none
 end
@@ -12,7 +13,13 @@ attr_accessor: :root
 
 def build_tree(arr)
   arr.sort
-  mid =
+  return null if arr.size == 1
+
+  mid = arr.size / 2
+  node = Node(arr[mid])
+  node.left = build_tree(arr[0]..arr[mid-1])
+  node.right = build_tree(arr[mid+1]..arr[-1])
+  return node
 end
 
 def insert
