@@ -3,8 +3,8 @@ class Node
 
   def initialize(data)
     self.data = data
-    self.left = none
-    self.right = none
+    self.left = null
+    self.right = null
 end
 
 
