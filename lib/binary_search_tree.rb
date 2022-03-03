@@ -9,10 +9,10 @@ end
 
 
 class Tree
-attr_accessor: :root
+attr_accessor: :root, :data
 
 def initialize(array)
-  @data = array.sort
+  @data = array.sort.untiq
   @root = build_tree(data)
 end
 
