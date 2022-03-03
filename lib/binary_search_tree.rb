@@ -27,15 +27,15 @@ def build_tree(arr)
   node
 end
 
-def insert(value, root=@root)
+def insert(value, current=@root)
   return Node.new(value) if root.nill?
-  return root if root.data == value
+  return current if current.data == value
 
-  if root.data < value then root.right = insert(value, root.right) end
-  if root.data > value then root.left = insert(value, root.left) end
+  if current.data < value then current.right = insert(value, current.right) end
+  if current.data > value then current.left = insert(value, current.left) end
 end
 
-def delete
+def delete(value, current=@root)
 
 end
 
