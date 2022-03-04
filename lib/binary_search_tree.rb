@@ -31,12 +31,43 @@ def insert(value, current=@root)
   return Node.new(value) if root.nill?
   return current if current.data == value
 
-  if current.data < value then current.right = insert(value, current.right) end
-  if current.data > value then current.left = insert(value, current.left) end
+  if current.data > value then current.right = insert(value, current.right) end
+  if current.data < value then current.left = insert(value, current.left) end
+
+  current
+end
+
+def min_value_node(node)
+  current = node
+
+  until current.left.nil?
+    current = current.left
+  end
+
+  current
 end
 
 def delete(value, current=@root)
+  return current if current.nil? end
 
+  current.left = delete(value, current.left) if value < current.value
+  current.right = delete(value, current.right) if value > current.value
+
+  if current.left.nil?
+    temp = current.right
+    current = nil
+    return temp
+  end
+
+  if current.right.nil?
+    temp = current.left
+    current = nil
+    return temp
+  end
+
+  temp = min_value_node(current.right)
+  current.value = temp.value
+  current.right = delete(temp.value, current.right)
 end
 
 def find
