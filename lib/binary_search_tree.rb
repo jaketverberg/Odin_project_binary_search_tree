@@ -68,6 +68,8 @@ def delete(value, current=@root)
   temp = min_value_node(current.right)
   current.value = temp.value
   current.right = delete(temp.value, current.right)
+
+  return current
 end
 
 def find
