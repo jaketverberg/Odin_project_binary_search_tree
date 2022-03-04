@@ -72,8 +72,12 @@ def delete(value, current=@root)
   return current
 end
 
-def find
+def find(value, current = @root)
+  return current if current.value == value
+  return nil if current.nil?
 
+  find(value, current.right) if current.value < value
+  find(value, current.left) if current.value > value
 end
 
 def level_order
