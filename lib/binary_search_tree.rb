@@ -5,110 +5,112 @@ class Node
     @data = data
     @left = null
     @right = null
+  end
 end
 
 
 class Tree
-attr_accessor: :root, :data
+  attr_accessor: :root, :data
 
-def initialize(array)
-  @data = array.sort.uniq
-  @root = build_tree(@data)
-end
-
-def build_tree(arr)
-  return nil if arr.empty?
-
-  mid = (arr.size - 1) / 2
-  node = Node.new(arr[mid])
-  node.left = build_tree(arr[0...mid])
-  node.right = build_tree(arr[(mid+1)..-1])
-
-  node
-end
-
-def insert(value, current = @root)
-  return Node.new(value) if current.nill?
-  return current if current.data == value
-
-  current.right = insert(value, current.right) if current.data < value
-  current.left = insert(value, current.left)   if current.data > value
-
-  current
-end
-
-def min_value_node(node)
-  current = node
-
-  until current.left.nil?
-    current = current.left
+  def initialize(array)
+    @data = array.sort.uniq
+    @root = build_tree(@data)
   end
 
-  current
-end
+  def build_tree(arr)
+    return nil if arr.empty?
 
-def delete(value, current=@root)
-  return current if current.nil? end
+    mid = (arr.size - 1) / 2
+    node = Node.new(arr[mid])
+    node.left = build_tree(arr[0...mid])
+    node.right = build_tree(arr[(mid+1)..-1])
 
-  current.left = delete(value, current.left)   if value < current.value
-  current.right = delete(value, current.right) if value > current.value
-
-  if current.left.nil?
-    temp = current.right
-    current = nil
-    return temp
+    node
   end
 
-  if current.right.nil?
-    temp = current.left
-    current = nil
-    return temp
+  def insert(value, current = @root)
+    return Node.new(value) if current.nill?
+    return current if current.data == value
+
+    current.right = insert(value, current.right) if current.data < value
+    current.left = insert(value, current.left)   if current.data > value
+
+    current
   end
 
-  temp = min_value_node(current.right)
-  current.value = temp.value
-  current.right = delete(temp.value, current.right)
+  def min_value_node(node)
+    current = node
 
-  return current
-end
+    until current.left.nil?
+      current = current.left
+    end
 
-def find(value, current = @root)
-  return current if current.value == value
-  return nil if current.nil?
+    current
+  end
 
-  find(value, current.right) if current.value < value
-  find(value, current.left) if current.value > value
-end
+  def delete(value, current=@root)
+    return current if current.nil? end
 
-def level_order
+    current.left = delete(value, current.left)   if value < current.value
+    current.right = delete(value, current.right) if value > current.value
 
-end
+    if current.left.nil?
+      temp = current.right
+      current = nil
+      return temp
+    end
 
-def inorder(&block)
+    if current.right.nil?
+      temp = current.left
+      current = nil
+      return temp
+    end
 
-end
+    temp = min_value_node(current.right)
+    current.value = temp.value
+    current.right = delete(temp.value, current.right)
 
-def preorder(&block)
+    return current
+  end
 
-end
+  def find(value, current = @root)
+    until current.nil? || current.value == value
+      current = current.left if current.value > value
+      current = current.right if current.value < value
+    end
 
-def postorder(&block)
+    current
+  end
 
-end
+  def level_order
 
-def height(node)
+  end
 
-end
+  def inorder(&block)
 
-def depth(node)
+  end
 
-end
+  def preorder(&block)
 
-def balanced?
+  end
 
-end
+  def postorder(&block)
 
-def rebalance
+  end
 
-end
+  def height(node)
+
+  end
+
+  def depth(node)
+
+  end
+
+  def balanced?
+
+  end
+
+  def rebalance
+
+  end
 end
