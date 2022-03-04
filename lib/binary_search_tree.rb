@@ -27,12 +27,12 @@ def build_tree(arr)
   node
 end
 
-def insert(value, current=@root)
+def insert(value, current = @root)
   return Node.new(value) if current.nill?
   return current if current.data == value
 
-  if current.data < value then current.right = insert(value, current.right) end
-  if current.data > value then current.left = insert(value, current.left) end
+  current.right = insert(value, current.right) if current.data < value
+  current.left = insert(value, current.left)   if current.data > value
 
   current
 end
@@ -50,7 +50,7 @@ end
 def delete(value, current=@root)
   return current if current.nil? end
 
-  current.left = delete(value, current.left) if value < current.value
+  current.left = delete(value, current.left)   if value < current.value
   current.right = delete(value, current.right) if value > current.value
 
   if current.left.nil?
