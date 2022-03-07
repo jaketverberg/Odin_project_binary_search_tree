@@ -82,20 +82,40 @@ class Tree
     current
   end
 
-  def level_order
-
+  def level_order(queue = [@root])
+    until queue.empty?
+      node = queue.shift
+      yield(node) if block_given?
+      queue << node.left unless node.left.nil?
+      queue << node.right unless node.right.nil?
+    end
   end
 
-  def inorder(&block)
+  def inorder(node = @root)
+    return if node.nil?
 
+    inorder(node.left)
+    print "#{node.data} "
+    yield(node) if block_given?
+    inorder(node.right)
   end
 
-  def preorder(&block)
+  def preorder(node = @root)
+    return if node.nil?
 
+    print "#{node.data}"
+    yield(node) if block_given?
+    preorder(node.left)
+    preorder(node.right)
   end
 
-  def postorder(&block)
+  def postorder(node = @root)
+    return if node.nil?
 
+    postorder(node.left)
+    postorder(node.right)
+    print "#{node.data}"
+    yield(node) if block_given?
   end
 
   def height(node)
