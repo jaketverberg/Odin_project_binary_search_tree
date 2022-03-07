@@ -118,8 +118,11 @@ class Tree
     yield(node) if block_given?
   end
 
-  def height(node)
-
+  def height(node = @root)
+    return -1 if node.nil?
+    left = height(node.left)
+    right = height(node.right)
+    return [left, right].max + 1
   end
 
   def depth(node)
