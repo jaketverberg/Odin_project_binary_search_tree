@@ -38,14 +38,10 @@ class Tree
     current
   end
 
-  def min_value_node(node)
-    current = node
+  def min_value_node(node = @root)
+    node = node.left until current.left.nil?
 
-    until current.left.nil?
-      current = current.left
-    end
-
-    current
+    node
   end
 
   def delete(value, current=@root)
@@ -145,10 +141,89 @@ class Tree
 
     left_height = height(node.left)
     right_height = height(node.right)
-
+    return true if (left_height - right_height).abs <= 1 && balanced?(node.left) && balanced?(node.right)
   end
 
   def rebalance
-
+    @root.data = inorder_array
+    @root.root = build_tree(data)
   end
 end
+
+def pretty_print(node = root, prefix = '', is_left = true)
+  pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
+  puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
+  pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
+end
+
+private
+
+# helper method that finds the leftmost leaf
+
+def leftmost_leaf(node)
+  node = node.left until node.left.nil?
+
+  node
+end
+
+# create inorder array of tree
+
+def inorder_array(node = root, array = [])
+  unless node.nil?
+    inorder_array(node.left, array)
+    array << node.data
+    inorder_array(node.right, array)
+  end
+  array
+end
+end
+
+# Driver script
+
+array = Array.new(15) { rand(1..100) }
+bst = Tree.new(array)
+
+bst.pretty_print
+
+puts bst.balanced? ? 'Your Binary Search Tree is balanced.' : 'Your Binary Search Tree is not balanced.'
+
+puts 'Level order traversal: '
+puts bst.level_order
+
+puts 'Preorder traversal: '
+puts bst.preorder
+
+puts 'Inorder traversal: '
+puts bst.inorder
+
+puts 'Postorder traversal: '
+puts bst.postorder
+
+10.times do
+a = rand(100..150)
+bst.insert(a)
+puts "Inserted #{a} to tree."
+end
+
+bst.pretty_print
+
+puts bst.balanced? ? 'Your Binary Search Tree is balanced.' : 'Your Binary Search Tree is not balanced.'
+
+puts 'Rebalancig tree...'
+bst.rebalance
+
+bst.pretty_print
+
+puts bst.balanced? ? 'Your Binary Search Tree is balanced.' : 'Your Binary Search Tree is not balanced.'
+
+puts 'Level order traversal: '
+puts bst.level_order
+
+puts 'Preorder traversal: '
+puts bst.preorder
+
+puts 'Inorder traversal: '
+puts bst.inorder
+
+puts 'Postorder traversal: '
+puts bst.postorder
