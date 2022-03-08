@@ -1,16 +1,16 @@
 class Node
-  attr_accessor: :data, :left, :right
+  attr_accessor :data, :left, :right
 
   def initialize(data)
     @data = data
-    @left = null
-    @right = null
+    @left = nil
+    @right = nil
   end
 end
 
 
 class Tree
-  attr_accessor: :root, :data
+  attr_accessor :root, :data
 
   def initialize(array)
     @data = array.sort.uniq
@@ -29,7 +29,7 @@ class Tree
   end
 
   def insert(value, current = @root)
-    return Node.new(value) if current.nill?
+    return Node.new(value) if current.nil?
     return current if current.data == value
 
     current.right = insert(value, current.right) if current.data < value
@@ -45,7 +45,7 @@ class Tree
   end
 
   def delete(value, current=@root)
-    return current if current.nil? end
+    return current if current.nil?
 
     current.left = delete(value, current.left)   if value < current.value
     current.right = delete(value, current.right) if value > current.value
@@ -99,7 +99,7 @@ class Tree
   def preorder(node = @root)
     return if node.nil?
 
-    print "#{node.data}"
+    print "#{node.data} "
     yield(node) if block_given?
     preorder(node.left)
     preorder(node.right)
@@ -110,7 +110,7 @@ class Tree
 
     postorder(node.left)
     postorder(node.right)
-    print "#{node.data}"
+    print "#{node.data} "
     yield(node) if block_given?
   end
 
@@ -142,11 +142,32 @@ class Tree
     left_height = height(node.left)
     right_height = height(node.right)
     return true if (left_height - right_height).abs <= 1 && balanced?(node.left) && balanced?(node.right)
+
+    false
   end
 
   def rebalance
     @root.data = inorder_array
-    @root.root = build_tree(data)
+    @root = build_tree(@root.data)
+  end
+
+  def pretty_print(node = root, prefix = '', is_left = true)
+    pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
+    puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
+    pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
+  end
+
+  private
+
+  # create inorder array of tree
+
+  def inorder_array(node = @root, array = [])
+    unless node.nil?
+      inorder_array(node.left, array)
+      array << node.data
+      inorder_array(node.right, array)
+    end
+    array
   end
 end
 
@@ -158,24 +179,15 @@ end
 
 private
 
-# helper method that finds the leftmost leaf
-
-def leftmost_leaf(node)
-  node = node.left until node.left.nil?
-
-  node
-end
-
 # create inorder array of tree
 
-def inorder_array(node = root, array = [])
+def inorder_array(node = @root, array = [])
   unless node.nil?
     inorder_array(node.left, array)
     array << node.data
     inorder_array(node.right, array)
   end
   array
-end
 end
 
 # Driver script
